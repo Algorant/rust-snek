@@ -11,7 +11,7 @@ use piston_window::types::Color;
 use game::Game;
 use draw::to_coord_u32;
 
-const BACK_COLOR: Color = [0.5, 0.5, 0.5, 1.0];
+const BACK_COLOR: Color = [0.1, 0.1, 0.1, 0.8];
 
 
 fn main() {
