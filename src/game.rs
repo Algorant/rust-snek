@@ -11,7 +11,7 @@ const FOOD_COLOR: Color = [1.00, 0.00, 1.00, 1.0];
 const BORDER_COLOR: Color = [1.00, 1.00, 1.00, 1.0];
 const GAMEOVER_COLOR: Color = [0.50, 0.20, 0.10, 0.5];
 
-const MOVING_PERIOD: f64 = 0.1;
+const MOVING_PERIOD: f64 = 0.4;
 const RESTART_TIME: f64 = 1.0;
 
 pub struct Game {
@@ -145,8 +145,8 @@ impl Game {
         self.snake = Snake::new(2, 2);
         self.waiting_time = 0.0;
         self.food_exists = true;
-        self.food_x = 6;
-        self.food_y = 4;
+        self.food_x = 15;
+        self.food_y = 15;
         self.game_over = false;
     }
 }

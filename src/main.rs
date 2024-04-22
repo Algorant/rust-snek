@@ -15,7 +15,7 @@ const BACK_COLOR: Color = [0.1, 0.1, 0.1, 0.8];
 
 
 fn main() {
-    let (width, height) = (20, 20);
+    let (width, height) = (40, 40);
 
     let mut window:  PistonWindow = 
         WindowSettings::new("Snake",[to_coord_u32(width), to_coord_u32(height)])
