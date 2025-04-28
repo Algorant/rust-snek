@@ -68,32 +68,27 @@ impl Snake {
         (head_block.x, head_block.y)
     }
 
-    pub fn move_forward(&mut self, dir: Option<Direction>) {
+    pub fn move_forward(&mut self, dir: Option<Direction>, width: i32, height: i32) {
         match dir {
             Some(d) => self.direction = d,
             None => (),
         }
 
         let (last_x, last_y): (i32, i32) = self.head_position();
-            // snake::Block
-        let new_block = match self.direction {
-            Direction::Up => Block {
-                x: last_x,
-                y: last_y -1,
-            },
-            Direction::Down => Block {
-                x: last_x,
-                y: last_y +1,
-            },
-            Direction::Left => Block {
-                x: last_x - 1,
-                y: last_y,
-            },
-            Direction::Right => Block {
-                x: last_x + 1,
-                y: last_y,
-            },
+        
+        // Calculate new position with wrapping
+        let (new_x, new_y) = match self.direction {
+            Direction::Up => (last_x, if last_y <= 0 { height - 2 } else { last_y - 1 }),
+            Direction::Down => (last_x, if last_y >= height - 2 { 1 } else { last_y + 1 }),
+            Direction::Left => (if last_x <= 0 { width - 2 } else { last_x - 1 }, last_y),
+            Direction::Right => (if last_x >= width - 2 { 1 } else { last_x + 1 }, last_y),
         };
+        
+        let new_block = Block {
+            x: new_x,
+            y: new_y,
+        };
+        
         self.body.push_front(new_block);
         let removed_block = self.body.pop_back().unwrap();
         self.tail = Some(removed_block);
@@ -103,7 +98,7 @@ impl Snake {
         self.direction
     }
 
-    pub fn next_head(&self, dir: Option<Direction>) -> (i32, i32) {
+    pub fn next_head(&self, dir: Option<Direction>, width: i32, height: i32) -> (i32, i32) {
         let (head_x, head_y): (i32, i32) = self.head_position();
 
         let mut moving_dir = self.direction;
@@ -112,12 +107,12 @@ impl Snake {
             None => {}
         }
 
+        // Calculate next position with wrapping
         match moving_dir {
-            Direction::Up => (head_x, head_y - 1),
-            Direction::Down => (head_x, head_y + 1),
-            Direction::Left => (head_x - 1, head_y),
-            Direction::Right => (head_x + 1, head_y),
-
+            Direction::Up => (head_x, if head_y <= 0 { height - 2 } else { head_y - 1 }),
+            Direction::Down => (head_x, if head_y >= height - 2 { 1 } else { head_y + 1 }),
+            Direction::Left => (if head_x <= 0 { width - 2 } else { head_x - 1 }, head_y),
+            Direction::Right => (if head_x >= width - 2 { 1 } else { head_x + 1 }, head_y),
         }
     }
 

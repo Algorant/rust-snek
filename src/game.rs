@@ -107,13 +107,10 @@ impl Game {
     }
 
     fn check_if_snake_alive(&self, dir: Option<Direction>) -> bool {
-        let (next_x, next_y) = self.snake.next_head(dir);
+        let (next_x, next_y) = self.snake.next_head(dir, self.width, self.height);
 
-        if self.snake.overlap_tail(next_x, next_y) {
-            return false;
-        }
-
-        next_x > 0 && next_y > 0 && next_x < self.width - 1 && next_y < self.height -1
+        // Only check tail overlap, walls no longer cause death
+        !self.snake.overlap_tail(next_x, next_y)
     }
 
     fn add_food(&mut self) {
@@ -133,7 +130,7 @@ impl Game {
 
     fn update_snake(&mut self, dir: Option<Direction>) {
         if self.check_if_snake_alive(dir) {
-            self.snake.move_forward(dir);
+            self.snake.move_forward(dir, self.width, self.height);
             self.check_eating();
         } else {
             self.game_over = true;
